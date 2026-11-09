@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ABHEDYA AI | Disaster Management &amp; Relocation Command Center</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <!-- Our CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                AA
+            </div>
+
+            <div>
+                <h2>ABHEDYA AI</h2>
+                <span>Disaster Command Center</span>
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <button class="nav-btn active" onclick="showPage('dashboard', this)">
+                🏠 Dashboard
+            </button>
+
+            <button class="nav-btn" onclick="showPage('map', this)">
+                🗺️ Hazard Map
+            </button>
+
+            <button class="nav-btn" onclick="showPage('risk', this)">
+                📊 Risk Analysis
+            </button>
+
+            <button class="nav-btn" onclick="showPage('relocation', this)">
+                🚨 Relocation
+            </button>
+
+            <button class="nav-btn" onclick="showPage('reports', this)">
+                📄 Reports
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <p>SIH 2026 Prototype</p>
+            <span>India-wide Disaster Intelligence</span>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main-content">
+
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section id="dashboard" class="page active">
+
+            <div class="page-header">
+
+                <div>
+                    <h1>India Hazard Dashboard</h1>
+
+                    <p>
+                        Monitor hazard exposure, population vulnerability
+                        and relocation requirements across India.
+                    </p>
+                </div>
+
+                <div class="status" id="systemStatusBadge">
+                    ● System Online
+                </div>
+
+            </div>
+
+
+            <!-- STAT CARDS -->
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon red">
+                        ⚠️
+                    </div>
+
+                    <div>
+                        <span>Very High Risk</span>
+                        <strong id="veryHighCount">0</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon orange">
+                        🔶
+                    </div>
+
+                    <div>
+                        <span>High Risk</span>
+                        <strong id="highCount">0</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon yellow">
+                        🟡
+                    </div>
+
+                    <div>
+                        <span>Medium Risk</span>
+                        <strong id="mediumCount">0</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon green">
+                        🟢
+                    </div>
+
+                    <div>
+                        <span>Low Risk</span>
+                        <strong id="lowCount">0</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DASHBOARD GRID -->
+
+            <div class="dashboard-grid">
+
+
+                <!-- RISK DISTRIBUTION -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <h2>Risk Distribution</h2>
+
+                        <span>Demo Dataset</span>
+
+                    </div>
+
+
+                    <div class="risk-bar-container">
+
+                        <div class="risk-label">
+                            <span>Very High</span>
+                            <b id="veryHighPercent">0%</b>
+                        </div>
+
+                        <div class="progress">
+                            <div id="veryHighBar" class="progress-red">
+                            </div>
+                        </div>
+
+
+                        <div class="risk-label">
+                            <span>High</span>
+                            <b id="highPercent">0%</b>
+                        </div>
+
+                        <div class="progress">
+                            <div id="highBar" class="progress-orange">
+                            </div>
+                        </div>
+
+
+                        <div class="risk-label">
+                            <span>Medium</span>
+                            <b id="mediumPercent">0%</b>
+                        </div>
+
+                        <div class="progress">
+                            <div id="mediumBar" class="progress-yellow">
+                            </div>
+                        </div>
+
+
+                        <div class="risk-label">
+                            <span>Low</span>
+                            <b id="lowPercent">0%</b>
+                        </div>
+
+                        <div class="progress">
+                            <div id="lowBar" class="progress-green">
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- QUICK INFO -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <h2>System Overview</h2>
+
+                    </div>
+
+
+                    <div class="overview-item">
+
+                        <span>Locations Analysed</span>
+
+                        <strong id="locationCount">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="overview-item">
+
+                        <span>Total Population</span>
+
+                        <strong id="populationCount">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="overview-item">
+
+                        <span>Vulnerable Population</span>
+
+                        <strong id="vulnerableCount">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="overview-item">
+
+                        <span>Relocation Required</span>
+
+                        <strong id="relocationCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ALERTS -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h2>Recent Alerts</h2>
+
+                    <button onclick="showPage('map')" class="small-btn">
+                        View Map
+                    </button>
+
+                </div>
+
+                <div id="alertsContainer"></div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= MAP ================= -->
+
+        <section id="map" class="page">
+
+            <div class="page-header">
+
+                <div>
+
+                    <h1>🇮🇳 India Hazard Intelligence Map</h1>
+
+                    <p>
+                        Interactive hazard-based risk visualization
+                        across India.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- MAP FILTERS -->
+
+            <div class="map-controls">
+
+                <div>
+
+                    <label for="stateFilter">
+                        State
+                    </label>
+
+                    <select id="stateFilter">
+
+                        <option value="ALL">
+                            All India
+                        </option>
+
+                        <option value="Karnataka">
+                            Karnataka
+                        </option>
+
+                        <option value="Kerala">
+                            Kerala
+                        </option>
+
+                        <option value="Tamil Nadu">
+                            Tamil Nadu
+                        </option>
+
+                        <option value="Maharashtra">
+                            Maharashtra
+                        </option>
+
+                        <option value="Uttarakhand">
+                            Uttarakhand
+                        </option>
+
+                        <option value="Himachal Pradesh">
+                            Himachal Pradesh
+                        </option>
+
+                        <option value="Assam">
+                            Assam
+                        </option>
+
+                        <option value="Odisha">
+                            Odisha
+                        </option>
+
+                        <option value="West Bengal">
+                            West Bengal
+                        </option>
+
+                        <option value="Bihar">
+                            Bihar
+                        </option>
+
+                        <option value="Gujarat">
+                            Gujarat
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div>
+
+                    <label for="riskFilter">
+                        Risk Level
+                    </label>
+
+                    <select id="riskFilter">
+
+                        <option value="ALL">
+                            All Risk Levels
+                        </option>
+
+                        <option value="VERY HIGH">
+                            Very High
+                        </option>
+
+                        <option value="HIGH">
+                            High
+                        </option>
+
+                        <option value="MEDIUM">
+                            Medium
+                        </option>
+
+                        <option value="LOW">
+                            Low
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- MAP -->
+
+            <div id="activeRouteBanner" class="route-summary-banner" style="display:none; margin-bottom:12px;"></div>
+
+            <div class="map-layout">
+
+                <div id="hazardMap"></div>
+
+
+                <!-- MAP SIDE PANEL -->
+
+                <div class="map-panel">
+
+                    <h2>Risk Legend</h2>
+
+
+                    <div class="legend-item">
+
+                        <span class="legend-dot very-high"></span>
+
+                        <span>
+                            Very High Risk
+                        </span>
+
+                    </div>
+
+
+                    <div class="legend-item">
+
+                        <span class="legend-dot high"></span>
+
+                        <span>
+                            High Risk
+                        </span>
+
+                    </div>
+
+
+                    <div class="legend-item">
+
+                        <span class="legend-dot medium"></span>
+
+                        <span>
+                            Medium Risk
+                        </span>
+
+                    </div>
+
+
+                    <div class="legend-item">
+
+                        <span class="legend-dot low"></span>
+
+                        <span>
+                            Low Risk
+                        </span>
+
+                    </div>
+
+                    <div class="legend-item">
+                        <span
+                            style="width:16px; height:16px; background:#fee2e2; border:2px solid #dc2626; border-radius:3px; display:inline-block;"></span>
+                        <span>Active Red Zone</span>
+                    </div>
+
+                    <div class="legend-item">
+                        <span
+                            style="width:16px; height:16px; background:#0284c7; border-radius:3px; display:inline-flex; align-items:center; justify-content:center; color:white; font-size:10px;">🏥</span>
+                        <span>Safe Relief Haven</span>
+                    </div>
+
+                    <div class="legend-item">
+                        <span
+                            style="width:20px; height:4px; background:#2563eb; display:inline-block; border-radius:2px;"></span>
+                        <span>OSRM Evacuation Route</span>
+                    </div>
+
+                    <hr>
+
+
+                    <div id="locationDetails">
+
+                        <h3>Select a location</h3>
+
+                        <p>
+                            Click a hazard marker to
+                            see detailed information.
+                        </p>
+
+                    </div>
+
+                    <hr>
+
+                    <div id="mapRoutesPanel">
+                        <h3 style="margin-bottom:8px;">Active Evacuation Corridors</h3>
+                        <div id="mapRoutesList">
+                            <p style="color:#6b7280; font-size:12px;">No active evacuation routes dispatched yet.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= RISK ANALYSIS ================= -->
+
+        <section id="risk" class="page">
+
+            <div class="page-header">
+
+                <div>
+
+                    <h1>Risk Analysis</h1>
+
+                    <p>
+                        Calculate hazard and population risk.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="analysis-card">
+
+                <form id="riskForm">
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Village / Location
+                            </label>
+
+                            <input id="locationName" type="text" placeholder="Example: Village ABC" required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Population
+                            </label>
+
+                            <input id="population" type="number" min="0" placeholder="Enter population" required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Safe Carrying Capacity
+                            </label>
+
+                            <input id="capacity" type="number" min="1" placeholder="Enter capacity" required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Hazard Level
+                            </label>
+
+                            <select id="hazardLevel">
+
+                                <option value="1">
+                                    Low
+                                </option>
+
+                                <option value="2">
+                                    Medium
+                                </option>
+
+                                <option value="3">
+                                    High
+                                </option>
+
+                                <option value="4">
+                                    Very High
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Vulnerability Level
+                            </label>
+
+                            <select id="vulnerability">
+
+                                <option value="1">
+                                    Low
+                                </option>
+
+                                <option value="2">
+                                    Medium
+                                </option>
+
+                                <option value="3">
+                                    High
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <button type="submit" class="primary-btn">
+
+                        Calculate Risk
+
+                    </button>
+
+                </form>
+
+
+                <div id="riskResult" class="risk-result">
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= RELOCATION ================= -->
+
+        <section id="relocation" class="page">
+
+            <div class="page-header">
+
+                <div>
+
+                    <h1>Intelligent Relocation &amp; OSRM Dispatch Center</h1>
+
+                    <p>
+                        Carrying capacity analysis, multi-factor safe haven recommendation, and road evacuation corridor
+                        dispatch.
+                    </p>
+
+                </div>
+
+                <div style="display:flex; gap:10px;">
+                    <button class="primary-btn" onclick="openRelocationModal(null)">
+                        🚀 New Evacuation Dispatch
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- RELOCATION METRICS BAR -->
+            <div class="stats-grid" style="margin-bottom: 24px;">
+                <div class="stat-card">
+                    <div class="stat-icon red">⚠️</div>
+                    <div>
+                        <span>Habitations in Deficit</span>
+                        <strong id="relocQueueCount">0</strong>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange">👥</div>
+                    <div>
+                        <span>Total Evacuees at Risk</span>
+                        <strong id="relocTotalEvacuees">0</strong>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon blue" style="background:#dbeafe; color:#1d4ed8;">🚍</div>
+                    <div>
+                        <span>Active Dispatched Plans</span>
+                        <strong id="relocActivePlansCount">0</strong>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green" style="background:#dcfce7; color:#15803d;">🏥</div>
+                    <div>
+                        <span>Haven Safe Headroom</span>
+                        <strong id="relocShelterHeadroom">0</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RELOCATION SUB-NAVIGATION TABS -->
+            <div class="relocation-tabs" style="display:flex; gap:10px; margin-bottom:18px;">
+                <button id="relocTabQueue" class="secondary-btn active-tab" onclick="switchRelocationTab('queue')">
+                    🚨 Vulnerable Evacuation Queue
+                </button>
+                <button id="relocTabPlans" class="secondary-btn" onclick="switchRelocationTab('plans')">
+                    🛣️ Dispatched Plans &amp; Convoy Fleets
+                </button>
+                <button id="relocTabShelters" class="secondary-btn" onclick="switchRelocationTab('shelters')">
+                    🏥 Safe Relief Havens &amp; Headroom
+                </button>
+            </div>
+
+            <!-- 1. HABITATIONS QUEUE TABLE -->
+            <div id="relocSectionQueue" class="card table-card">
+                <div style="padding:16px 20px 0;">
+                    <h2 style="font-size:16px; margin-bottom:4px;">Vulnerable Settlements Requiring Evacuation</h2>
+                    <span style="font-size:12px; color:#6b7280;">Ranked by population excess beyond safe geotechnical
+                        carrying capacity</span>
+                </div>
+                <div class="table-container" style="margin-top:12px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Settlement</th>
+                                <th>State / District</th>
+                                <th>Hazard / Terrain</th>
+                                <th>Population</th>
+                                <th>Risk Tier</th>
+                                <th>Safe Capacity</th>
+                                <th>Excess Evacuees</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="relocationTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 2. DISPATCHED EVACUATION PLANS TABLE -->
+            <div id="relocSectionPlans" class="card table-card" style="display:none;">
+                <div style="padding:16px 20px 0;">
+                    <h2 style="font-size:16px; margin-bottom:4px;">Dispatched Relocation Directives &amp; Convoy Fleets
+                    </h2>
+                    <span style="font-size:12px; color:#6b7280;">Real-time OSRM road routing, Sphere fleet sizing, and
+                        evacuation mission tracking</span>
+                </div>
+                <div class="table-container" style="margin-top:12px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Plan Code</th>
+                                <th>Origin Habitation</th>
+                                <th>Target Haven</th>
+                                <th>Evacuees</th>
+                                <th>Fleet Convoy</th>
+                                <th>OSRM Road Distance</th>
+                                <th>Safety Clearance</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dispatchedPlansTable">
+                            <tr>
+                                <td colspan="9" style="text-align:center; color:#6b7280; padding:25px;">
+                                    No relocation plans dispatched yet. Select a habitation from the queue to dispatch.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. RELIEF SHELTERS CAPACITY MONITOR -->
+            <div id="relocSectionShelters" class="card table-card" style="display:none;">
+                <div style="padding:16px 20px 0;">
+                    <h2 style="font-size:16px; margin-bottom:4px;">Verified Relief Havens &amp; Sphere Carrying
+                        Capacities</h2>
+                    <span style="font-size:12px; color:#6b7280;">Multi-resource audit: Safe Headroom, Potable Water
+                        (15L/person/day), Sanitation (20:1), and Medical Tier</span>
+                </div>
+                <div class="table-container" style="margin-top:12px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Shelter / Haven</th>
+                                <th>Location</th>
+                                <th>Safe Capacity</th>
+                                <th>Current Occupancy</th>
+                                <th>Safe Headroom</th>
+                                <th>Water Supply</th>
+                                <th>Medical Support</th>
+                                <th>Backup Power</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sheltersCapacityTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= REPORTS ================= -->
+
+        <section id="reports" class="page">
+
+            <div class="page-header">
+
+                <div>
+
+                    <h1>Reports</h1>
+
+                    <p>
+                        Generate a summary of the hazard analysis.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="report-card">
+
+                <div class="report-icon">
+                    📄
+                </div>
+
+                <h2>India Hazard Assessment Report</h2>
+
+                <p>
+                    Generate a printable report containing
+                    risk distribution, population exposure,
+                    vulnerable population and relocation
+                    requirements.
+                </p>
+
+                <button onclick="generateReport()" class="primary-btn">
+
+                    Generate Report
+
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- ================= RELOCATION PLANNING MODAL ================= -->
+        <div id="relocationModal" class="modal-backdrop" style="display:none;">
+            <div class="modal-window">
+                <div class="modal-header">
+                    <div>
+                        <h2 id="modalHabitationName">Relocation Command & Route Dispatch</h2>
+                        <span id="modalHabitationSub">Intelligent Safe Haven Identification & Fleet Sizing</span>
+                    </div>
+                    <button class="modal-close" onclick="closeRelocationModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-card">
+                        <div class="modal-stats-grid">
+                            <div class="mstat">
+                                <label>Total / Safe Capacity</label>
+                                <strong id="modalPopCap">1,800 / 900</strong>
+                            </div>
+                            <div class="mstat">
+                                <label>Evacuation Requirement</label>
+                                <strong id="modalExcess" style="color:#dc2626;">900 persons</strong>
+                            </div>
+                            <div class="mstat">
+                                <label>Risk Classification</label>
+                                <strong id="modalRiskBadge" class="table-risk risk-very-high">VERY HIGH</strong>
+                            </div>
+                            <div class="mstat">
+                                <label>Live Weather Telemetry</label>
+                                <strong id="modalWeather">Loading Open-Meteo...</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin: 18px 0 10px; font-size: 14px; font-weight: bold;">
+                        Recommended Safe Relief Havens (Ranked by Suitability)
+                    </h3>
+                    <div id="modalSheltersList" class="shelters-list">
+                        <div style="padding:15px; text-align:center; color:#6b7280;">Loading shelter suitability
+                            rankings...</div>
+                    </div>
+
+                    <div id="modalPlanResult" style="display:none; margin-top:15px;" class="result-box">
+                        <!-- Populated when relocation plan is generated -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="secondary-btn" onclick="closeRelocationModal()">Close</button>
+                    <button id="dispatchPlanBtn" class="primary-btn" onclick="dispatchSelectedRelocation()">
+                        🚀 Dispatch Relocation & Compute OSRM Route
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+
+
+    <!-- Leaflet JS -->
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    </script>
+
+
+    <!-- Our JavaScript -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

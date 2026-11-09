@@ -1,0 +1,15 @@
+﻿backend/target/
+**/target/
+node_modules/
+dist/
+build/
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+*.log
+.tools/
