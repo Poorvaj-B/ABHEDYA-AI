@@ -3,8 +3,7 @@
    Frontend Controller & Real-Time Geospatial Intelligence
 =================================================================== */
 
-const API_BASE = "http://localhost:8080";
-
+const API_BASE = "https://abhedya-ai-backend.onrender.com";
 /* =========================================
    BASELINE / OFFLINE DEMONSTRATION DATA
    (Maps 1:1 to PostGIS Seed Database)
